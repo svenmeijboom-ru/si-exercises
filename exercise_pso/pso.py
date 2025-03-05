@@ -95,7 +95,7 @@ def main():
 
     n_particles = 30
     n_iterations = 50
-    w = 0.5      # Inertia weight.
+    w = 0.73      # Inertia weight.
     c1 = 1.5     # Cognitive acceleration coefficient.
     c2 = 1.5     # Social acceleration coefficient.
     
