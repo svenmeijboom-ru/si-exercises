@@ -33,6 +33,7 @@ def pso_color_quantization(image, n_clusters=16, n_particles=30, n_iterations=50
     gbest_history = []
     palette_history = []
     
+    plt.figure(figsize=(12, 25))
     for it in range(n_iterations):
         for i in range(n_particles):
             r1 = np.random.rand(n_clusters, 3)
@@ -56,11 +57,13 @@ def pso_color_quantization(image, n_clusters=16, n_particles=30, n_iterations=50
         
         gbest_history.append(gbest_fitness)
         palette_history.append(np.copy(gbest_position))
+
+        number_of_plots = int(n_iterations / 10) + 1
         
         if (it + 1) % 10 == 0 or it == 0:
+            current_plot = (int((it + 1) / 10)) * 2
             quantized = quantize_image(image, gbest_position)
-            plt.figure(figsize=(12, 4))
-            plt.subplot(1, 2, 1)
+            plt.subplot(number_of_plots, 2, current_plot+1)
             palette_img = np.zeros((50, n_clusters * 50, 3), dtype=np.uint8)
             for j in range(n_clusters):
                 palette_img[:, j*50:(j+1)*50, :] = np.uint8(np.tile(gbest_position[j], (50, 50, 1)))
@@ -68,12 +71,12 @@ def pso_color_quantization(image, n_clusters=16, n_particles=30, n_iterations=50
             plt.title(f'Iteration {it + 1} - Best Palette')
             plt.axis('off')
             
-            plt.subplot(1, 2, 2)
+            plt.subplot(number_of_plots, 2, current_plot+2)
             plt.imshow(np.uint8(quantized))
             plt.title(f'Iteration {it + 1} - Quantized Image')
             plt.axis('off')
-            plt.show()
             print(f"Iteration {it + 1}, Global Best Fitness: {gbest_fitness:.2f}")
+    plt.show()
     
     return gbest_position, gbest_history, palette_history
 
