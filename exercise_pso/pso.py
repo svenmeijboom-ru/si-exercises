@@ -89,6 +89,8 @@ def kmeans_color_quantization(image, n_clusters=16):
     labels = kmeans.labels_
     quantized_flat = palette[labels]
     quantized_image = quantized_flat.reshape(h, w, 3)
+    error = np.sum((image - quantized_image) ** 2)
+    print(f"K-means Error: {error:.2f}")
     return palette, quantized_image
 
 def main():
